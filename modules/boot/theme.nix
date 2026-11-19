@@ -13,6 +13,7 @@ pkgs.stdenv.mkDerivation {
     themeDir="$out/grub/themes/Elegant-forest-window-left-dark"
     mkdir -p "$themeDir"
     cp "$src/background.jpg" "$src/theme.txt" "$src/"*.png "$themeDir/"
+    cp -R "$src/icons" "$themeDir/icons"
     grub-mkfont --name="Adwaita Sans" --size=18 \
       --range=32-126,183-183 \
       --output="$themeDir/adwaita-sans-18.pf2" \

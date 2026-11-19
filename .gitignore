@@ -10,6 +10,8 @@
 !/assets/grub/elegant-forest-window-left-dark/*.jpg
 !/assets/grub/elegant-forest-window-left-dark/*.png
 !/assets/grub/elegant-forest-window-left-dark/*.txt
+!/assets/grub/elegant-forest-window-left-dark/icons/
+!/assets/grub/elegant-forest-window-left-dark/icons/*.png
 !/modules/
 !/modules/**/
 !/modules/**/*.nix
