@@ -22,7 +22,7 @@
 
 实际运行的配置以 `/etc/nixos/configuration.nix` 为准。修改此仓库不会自动切换系统；每次部署都要先比较差异，再由管理员执行构建和切换。入口引用了 `./hardware-configuration.nix` 和相对路径 `./modules/...`；GRUB 模块引用了 `./assets/grub/...`。部署时必须把整个 `modules/` 和 `assets/` 目录一起复制。仓库没有 `hardware-configuration.nix`，目标机器必须使用自己的硬件配置。
 
-GRUB 视觉资源来自 [Elegant-grub2-themes 固定提交](https://github.com/vinceliuice/Elegant-grub2-themes/tree/8f36b5dde2361c902656bc82890f2902baa3c6c4)，选用森林、窗口、左侧图片、深色、2K 布局。仓库保存的是现机生成后的背景、图片和 `theme.txt`，以便离线复刻此菜单；字体由 Nixpkgs 的 Adwaita 字体与 GRUB 工具生成。上游项目使用 [GPL-3.0](assets/grub/elegant-forest-window-left-dark/LICENSE) 许可；这些视觉资源的版权归原作者所有。
+GRUB 视觉资源来自 [Elegant-grub2-themes 固定提交](https://github.com/vinceliuice/Elegant-grub2-themes/tree/8f36b5dde2361c902656bc82890f2902baa3c6c4)，选用森林、窗口、左侧图片、深色、2K 布局。仓库保存现机生成后的背景、图片、菜单图标、备用字体和 `theme.txt`；菜单使用的 Adwaita 字体由 Nixpkgs 和 GRUB 工具生成。上游项目使用 [GPL-3.0](assets/grub/elegant-forest-window-left-dark/LICENSE) 许可；这些视觉资源的版权归原作者所有。
 
 ## 当前配置概览
 
