@@ -1,0 +1,11 @@
+# 公开仓库采用白名单。新增文件须先检查，再显式加入此列表。
+/*
+!/.gitignore
+!/README.md
+!/configuration.pending.nix
+
+# 即使日后调整白名单，也不要把凭据或硬件配置提交进来。
+**/.env
+**/*.key
+**/*secret*
+**/hardware-configuration.nix
