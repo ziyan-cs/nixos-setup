@@ -1,46 +1,8 @@
 { pkgs, ... }:
 
 let
-  # 构建 Elegant GRUB 主题，并使用 GNOME 安装环境的默认界面字体。
-  elegantGrubTheme = pkgs.stdenv.mkDerivation {
-    pname = "elegant-grub2-theme";
-    version = "2025-03-25";
-    src = pkgs.fetchzip {
-      url = "https://github.com/vinceliuice/Elegant-grub2-themes/archive/8f36b5dde2361c902656bc82890f2902baa3c6c4.tar.gz";
-      hash = "sha256-M9k6R/rUvEpBTSnZ2PMv5piV50rGTBrcmPU4gsS7Byg=";
-    };
-    buildInputs = [
-      pkgs.imagemagick
-      pkgs.grub2
-      pkgs.adwaita-fonts
-      # 主题脚本会调用 lsb_release；加入依赖可消除“命令不存在”的提示。
-      pkgs.lsb-release
-    ];
-    installPhase = ''
-      mkdir -p "$out/grub/themes"
-      # 选用森林配色、背景在左、菜单在右的 2K 主题布局。
-      bash ./generate.sh \
-        -d "$out/grub/themes" \
-        -t forest \
-        -p window \
-        -i left \
-        -c dark \
-        -s 2k \
-        -l system
-      themeDir="$out/grub/themes/Elegant-forest-window-left-dark"
-      grub-mkfont --name="Adwaita Sans" --size=18 \
-        --range=32-126,183-183 \
-        --output="$themeDir/adwaita-sans-18.pf2" \
-        "${pkgs.adwaita-fonts}/share/fonts/Adwaita/AdwaitaSans-Regular.ttf"
-      grub-mkfont --name="Adwaita Sans" --size=24 \
-        --range=32-126,183-183 \
-        --output="$themeDir/adwaita-sans-24.pf2" \
-        "${pkgs.adwaita-fonts}/share/fonts/Adwaita/AdwaitaSans-Regular.ttf"
-      substituteInPlace "$themeDir/theme.txt" \
-        --replace-fail 'Terminus Regular 18' 'Adwaita Sans Regular 18' \
-        --replace-fail 'Unifont Regular 24' 'Adwaita Sans Regular 24'
-    '';
-  };
+  # 视觉资源随仓库保存；字体继续从 Nixpkgs 构建，复刻时无需访问主题上游。
+  elegantGrubTheme = import ./theme.nix { inherit pkgs; };
 
   elegantGrubThemeDir = "${elegantGrubTheme}/grub/themes/Elegant-forest-window-left-dark";
 in

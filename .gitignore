@@ -3,6 +3,13 @@
 !/.gitignore
 !/README.md
 !/configuration.pending.nix
+!/assets/
+!/assets/grub/
+!/assets/grub/elegant-forest-window-left-dark/
+!/assets/grub/elegant-forest-window-left-dark/LICENSE
+!/assets/grub/elegant-forest-window-left-dark/*.jpg
+!/assets/grub/elegant-forest-window-left-dark/*.png
+!/assets/grub/elegant-forest-window-left-dark/*.txt
 !/modules/
 !/modules/**/
 !/modules/**/*.nix
