@@ -3,6 +3,9 @@
 !/.gitignore
 !/README.md
 !/configuration.pending.nix
+!/modules/
+!/modules/**/
+!/modules/**/*.nix
 
 # 即使日后调整白名单，也不要把凭据或硬件配置提交进来。
 **/.env
