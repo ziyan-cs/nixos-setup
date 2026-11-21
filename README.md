@@ -16,8 +16,9 @@ NixOS 工作站的重装与换机母本。从[重装指南](docs/reinstall.md)�
 | `modules/accounts/`、`modules/shell/` | 本地用户、终端提示符及命令行体验 |
 | `modules/packages/` | 桌面应用和开发工具清单；QQ 下载适配位于 `desktop.nix` |
 | `modules/system/maintenance.nix` | Nix 功能、垃圾回收与 `system.stateVersion` |
-| `docs/reinstall.md` | 可随仓库迁移的安全步骤、恢复顺序和目标机检查表 |
-| [`scripts/`](scripts/) | NixOS 代次和 Hermes 会话管理脚本 |
+| [`docs/`](docs/) | 重装步骤与家目录布局 |
+| [`manifests/`](manifests/) | 家目录骨架清单 |
+| [`scripts/`](scripts/) | 目录恢复、NixOS 代次和 Hermes 会话管理脚本 |
 | `home/` | 筛选后的用户偏好配置与家目录骨架；不含登录态和应用数据库 |
 | `.gitignore` | Git 收录白名单，防止本地快照、凭据和设备资料被意外提交 |
 
@@ -61,14 +62,6 @@ sudo nixos-rebuild switch
 ```
 
 `build` 成功只说明配置能够构建。`switch` 之后还需核对桌面登录、网络、合盖挂起和实际使用的服务。部署前不要把包含密码或令牌的本地改动提交到 Git。
-
-## 换机时使用
-
-1. 在新机器的安装环境中，按硬件实际情况分区、挂载并运行 `nixos-generate-config --root /mnt`。保留新生成的 `/mnt/etc/nixos/hardware-configuration.nix`；不要复用旧机器的硬件文件。
-2. 先审查并调整各模块中的 GRUB/EFI、Windows 探测、显示分辨率、主机名、用户名、GNOME、合盖策略、软件包、`system.stateVersion`。已有系统的 `system.stateVersion` 不能因升级而随意改动。
-3. 将调整后的母本复制为目标机的 `/mnt/etc/nixos/configuration.nix`，并将整个 `modules/` 与 `assets/` 目录复制到 `/mnt/etc/nixos/`。入口还引用同目录的 `hardware-configuration.nix`。
-4. 确认配置与磁盘挂载后再运行 `nixos-install`。GRUB 视觉资源随仓库保存，无需再访问主题上游；Nixpkgs 包和 QQ 桌面版仍可能需要网络下载。
-5. 系统启动后单独恢复用户文件、软件登录和密钥。本仓库不承担这些数据的备份。
 
 ## GitHub 留存边界
 
