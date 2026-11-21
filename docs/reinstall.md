@@ -4,6 +4,8 @@
 
 适用于通过系统配置文件部署的 NixOS 工作站。已有 NixOS 的读者可直接看[日常更新与回退](#日常更新与回退)。若只想在试点设备评估配置，从[试点与验收](pilot.md)开始。
 
+从仓库部署系统只用到 `configuration.pending.nix`、`modules/` 和 `assets/`。磁盘挂载配置由目标机生成，个人资料从独立备份恢复。
+
 ## 1. 重装前准备
 
 开始安装前，确认受保护的备份可读，并记录以下信息。
@@ -40,11 +42,11 @@ sudo cp configuration.pending.nix /mnt/etc/nixos/configuration.nix
 
 ## 3. 恢复开发环境
 
-NixOS 构建时按模块安装开发工具。登录普通用户后，先用[家目录恢复步骤](storage-layout.md)建立目录骨架，再恢复偏好与脚本。
+NixOS 构建时按模块安装开发工具。登录后，可按[家目录布局](storage-layout.md)手动创建需要的目录，也可以运行可选的目录恢复脚本。已有目录可直接沿用。
 
 `home/config/` 中的文件是偏好模板，恢复前检查用户名、字体、扩展和目标路径。把 `user-dirs.dirs` 内容合并到新用户的 `~/.config/user-dirs.dirs`；其他配置按相对路径复制。Neovim 配置会安装插件，首次启动需要网络。
 
-`scripts/` 中的脚本可复制至 `~/Workspace/Scripts/` 并设为可执行。`manage-hermes-sessions.sh` 需要 Hermes CLI、带 sqlite3 的 Python 和用户自己的 `~/.hermes/state.db`。`manage-system-generations.sh` 需要 NixOS、nix-env 和 sudo。
+如需日常管理工具，可将相应脚本复制到 `~/Workspace/Scripts/`。`manage-hermes-sessions.sh` 需要 Hermes CLI、带 sqlite3 的 Python 和用户自己的 `~/.hermes/state.db`。`manage-system-generations.sh` 需要 NixOS、nix-env 和 sudo。
 
 ## 4. 恢复数据
 

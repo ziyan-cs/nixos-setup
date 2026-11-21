@@ -26,7 +26,7 @@
 | [home/config/](home/config/) | VS Code、Neovim、Fcitx5、btop 和用户目录偏好 |
 | [scripts/](scripts/) | 家目录恢复、NixOS 代次管理和 Hermes 会话管理 |
 
-目标机使用自己生成的 `hardware-configuration.nix`。套用母本前，核对启动方式、磁盘挂载、账号、网络、软件和电源策略。个人文件、设备快照、登录态和密钥单独备份。Windows 对应项目为 `windows-setup`。
+重建使用目标机自己生成的 `hardware-configuration.nix`，以及仓库里的配置入口、`modules/` 和 `assets/`。按重装手册执行 NixOS 自带命令即可。`scripts/` 仅供目录恢复和日常维护时选用。个人文件、设备快照、登录态和密钥单独备份。Windows 对应项目为 `windows-setup`。
 
 > [!NOTE]
 > **验证状态**
