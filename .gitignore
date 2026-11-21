@@ -3,6 +3,8 @@
 !/.gitignore
 !/README.md
 !/configuration.pending.nix
+!/docs/
+!/docs/MIGRATION.md
 !/assets/
 !/assets/grub/
 !/assets/grub/elegant-forest-window-left-dark/
