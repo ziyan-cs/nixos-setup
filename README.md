@@ -17,6 +17,7 @@
 | `modules/packages/` | 桌面应用和开发工具清单；QQ 下载适配位于 `desktop.nix` |
 | `modules/system/maintenance.nix` | Nix 功能、垃圾回收与 `system.stateVersion` |
 | `docs/MIGRATION.md` | 可随仓库迁移的安全步骤、恢复顺序和目标机检查表 |
+| `home/` | 筛选后的用户偏好配置与通用管理脚本；不含登录态和应用数据库 |
 | `.gitignore` | Git 收录白名单，防止本地快照、凭据和设备资料被意外提交 |
 
 要修改启动时看到的 GRUB 菜单和主题，查看 `modules/boot/grub.nix`；要修改进入系统后的 GNOME/GDM 登录与桌面设置，查看 `modules/desktop/gnome.nix`。`modules/packages/default.nix` 将桌面应用和开发工具两份有序清单组合起来。
@@ -28,7 +29,7 @@ GRUB 视觉资源来自 [Elegant-grub2-themes 固定提交](https://github.com/v
 ## 当前配置概览
 
 - UEFI + GRUB 双系统菜单、GNOME 桌面、中文环境和 Fcitx5。
-- 开盖锁屏或闲置不会使后台任务挂起；合盖立即锁屏。合盖接电时持续运行；断电后开始统一 20 分钟倒计时，仍合盖且未接回电源才挂起；开盖会取消计时。
+- 开盖锁屏或闲置时，后台任务继续运行。合盖会立即锁屏，接电时继续运行。电池供电时合盖，或合盖后拔电，都会启动 20 分钟倒计时。开盖或重新接电会取消倒计时。
 - 闲置 5 分钟锁屏熄屏；若用户安装并启用 Caffeine，仍允许熄屏，避免全屏应用使屏幕常亮。
 - NetworkManager、Tailscale、Flatpak、打印、PipeWire、Steam，以及日常应用和开发工具。
 - 使用 NixOS 默认账户密码认证；不额外设置 PAM 登录失败锁定。MySQL 服务未启用。
