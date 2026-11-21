@@ -1,5 +1,7 @@
 # NixOS 重装与恢复
 
+[仓库首页](../README.md) · [试点手册](pilot.md) · [目录布局](storage-layout.md)
+
 适用于通过系统配置文件部署的 NixOS 工作站。已有 NixOS 的读者可直接看[日常更新与回退](#日常更新与回退)。若只想在试点设备评估配置，从[试点与验收](pilot.md)开始。
 
 ## 1. 重装前准备
@@ -31,7 +33,10 @@ sudo cp configuration.pending.nix /mnt/etc/nixos/configuration.nix
 | 账户和网络 | `modules/accounts/` 与 `modules/network/` 中的用户名、权限、主机名和服务 |
 | 软件与版本 | `modules/packages/` 中的软件清单，以及 `modules/system/maintenance.nix` 中的 `system.stateVersion`。新安装以安装器生成的值为依据 |
 
-若无法确认目标盘、EFI 挂载点或双系统分区归属，应停止安装。核对后执行 `sudo nixos-install`，按提示设置 root 密码。重启前用 `sudo nixos-enter --root /mnt -c 'passwd dev'` 设置普通用户密码，其中 `dev` 换成配置声明的真实用户名。首次从硬盘启动后确认引导菜单、桌面登录和网络可用。
+> [!CAUTION]
+> 若无法确认目标盘、EFI 挂载点或双系统分区归属，停止安装。
+
+核对后执行 `sudo nixos-install`，按提示设置 root 密码。重启前用 `sudo nixos-enter --root /mnt -c 'passwd dev'` 设置普通用户密码，其中 `dev` 换成配置声明的真实用户名。首次从硬盘启动后确认引导菜单、桌面登录和网络可用。
 
 ## 3. 恢复开发环境
 

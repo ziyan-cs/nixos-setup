@@ -1,5 +1,7 @@
 # NixOS 家目录布局
 
+[仓库首页](../README.md) · [重装手册](reinstall.md) · [试点手册](pilot.md)
+
 基础清单位于 [manifests/storage-layout.txt](../manifests/storage-layout.txt)。工具由 NixOS 系统配置安装。目录清单用于恢复用户的工作区和资料分类。
 
 | 位置 | 用途 |
