@@ -4,7 +4,7 @@
 
 ## 1. 重装前准备
 
-在旧设备仍可用时，单独准备受保护的个人备份，并确认可读取。至少记录：
+开始安装前，确认受保护的备份可读，并记录以下信息。
 
 - 个人文件和项目的实际备份位置及恢复方式。
 - Hermes 登录与 QQ 机器人重新授权步骤；不要把 OAuth 凭据或 API 密钥写进仓库。
@@ -16,9 +16,9 @@
 本仓库采用 UEFI + GRUB 默认布局。先按 [NixOS 安装手册](https://nixos.org/manual/nixos/stable/#sec-installation-manual-installing)确认目标磁盘、EFI 分区、文件系统和双系统边界。以下命令从安装环境的仓库根目录执行，目标系统和引导分区应已挂载。
 
 ```bash
-sudo nixos-generate-config --root /mnt
-sudo cp /mnt/etc/nixos/configuration.nix /mnt/etc/nixos/configuration.generated.nix
-sudo cp -R modules assets /mnt/etc/nixos/
+sudo nixos-generate-config --root /mnt &&
+sudo cp /mnt/etc/nixos/configuration.nix /mnt/etc/nixos/configuration.generated.nix &&
+sudo cp -R modules assets /mnt/etc/nixos/ &&
 sudo cp configuration.pending.nix /mnt/etc/nixos/configuration.nix
 ```
 
@@ -31,7 +31,7 @@ sudo cp configuration.pending.nix /mnt/etc/nixos/configuration.nix
 | 账户和网络 | `modules/accounts/` 与 `modules/network/` 中的用户名、权限、主机名和服务 |
 | 软件与版本 | `modules/packages/` 中的软件清单，以及 `modules/system/maintenance.nix` 中的 `system.stateVersion`。新安装以安装器生成的值为依据 |
 
-核对后执行 `sudo nixos-install`，按提示设置 root 密码。重启前用 `sudo nixos-enter --root /mnt -c 'passwd dev'` 设置普通用户密码，其中 `dev` 换成配置声明的真实用户名。首次从硬盘启动后确认引导菜单、桌面登录和网络可用。
+若无法确认目标盘、EFI 挂载点或双系统分区归属，应停止安装。核对后执行 `sudo nixos-install`，按提示设置 root 密码。重启前用 `sudo nixos-enter --root /mnt -c 'passwd dev'` 设置普通用户密码，其中 `dev` 换成配置声明的真实用户名。首次从硬盘启动后确认引导菜单、桌面登录和网络可用。
 
 ## 3. 恢复开发环境
 
@@ -47,7 +47,14 @@ NixOS 构建时按模块安装开发工具。登录普通用户后，先用[家�
 
 ## 5. 验收
 
-确认启动菜单、桌面、网络及实际使用的服务正常，并用一个实际项目验证开发工具。恢复的项目和备份应各抽查几份文件。
+验收结果按项目记录。
+
+| 项目 | 通过条件 |
+| --- | --- |
+| 启动 | 能从目标磁盘启动并登录普通用户，双系统机器能选择约定的启动项 |
+| 网络与服务 | 能访问所需网络，计划启用的服务运行正常 |
+| 开发工具 | 代表性项目完成一次构建或测试 |
+| 数据 | 抽查恢复的项目和文件，可以正常读取 |
 
 验证合盖策略时，先接电合盖，再拔电。用 `systemctl status lid-close-suspend.timer` 查看 20 分钟倒计时，重新接电后确认定时器停止。电池供电时合盖也应启动计时，开盖应取消。
 
@@ -59,9 +66,9 @@ NixOS 构建时按模块安装开发工具。登录普通用户后，先用[家�
 
 ```bash
 backup_dir="/etc/nixos.before-$(date +%Y%m%d-%H%M%S)"
-sudo cp -a /etc/nixos "$backup_dir"
-sudo cp -R modules assets /etc/nixos/
-sudo cp configuration.pending.nix /etc/nixos/configuration.nix
+sudo cp -a /etc/nixos "$backup_dir" &&
+sudo cp -R modules assets /etc/nixos/ &&
+sudo cp configuration.pending.nix /etc/nixos/configuration.nix &&
 sudo nixos-rebuild build
 ```
 
