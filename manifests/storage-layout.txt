@@ -16,3 +16,4 @@ Workspace/Projects
 Workspace/Sandbox
 Workspace/Scripts
 Workspace/Templates
+Workspace/Tools
