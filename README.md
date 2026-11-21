@@ -1,6 +1,6 @@
-# nixos-workstation
+# nixos-setup
 
-NixOS 工作站的重装与换机母本。从[重装指南](docs/reinstall.md)开始，按需应用系统模块、恢复家目录和桌面偏好。系统入口是 [`configuration.pending.nix`](configuration.pending.nix)。Windows 工作站由同级的 `windows-workstation` 维护。
+NixOS 工作站的重装与换机母本。从[重装指南](docs/reinstall.md)开始，按需应用系统模块、恢复家目录和桌面偏好。系统入口是 [`configuration.pending.nix`](configuration.pending.nix)。Windows 工作站由同级的 `windows-setup` 维护。
 
 ## 文件与状态
 
