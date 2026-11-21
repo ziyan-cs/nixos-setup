@@ -1,6 +1,6 @@
-# NixOS 配置母本
+# nixos-workstation
 
-这个仓库保存一份供当前电脑维护、换机时裁剪使用的 NixOS 配置母本。入口是 [`configuration.pending.nix`](configuration.pending.nix)，实际功能配置在 `modules/` 中。它不是当前系统配置的自动镜像，也不包含个人数据或完整系统备份。
+NixOS 工作站的重装与换机母本。从[重装指南](docs/reinstall.md)开始，按需应用系统模块、恢复家目录和桌面偏好。系统入口是 [`configuration.pending.nix`](configuration.pending.nix)。Windows 工作站由同级的 `windows-workstation` 维护。
 
 ## 文件与状态
 
@@ -16,8 +16,9 @@
 | `modules/accounts/`、`modules/shell/` | 本地用户、终端提示符及命令行体验 |
 | `modules/packages/` | 桌面应用和开发工具清单；QQ 下载适配位于 `desktop.nix` |
 | `modules/system/maintenance.nix` | Nix 功能、垃圾回收与 `system.stateVersion` |
-| `docs/MIGRATION.md` | 可随仓库迁移的安全步骤、恢复顺序和目标机检查表 |
-| `home/` | 筛选后的用户偏好配置与通用管理脚本；不含登录态和应用数据库 |
+| `docs/reinstall.md` | 可随仓库迁移的安全步骤、恢复顺序和目标机检查表 |
+| [`scripts/`](scripts/) | NixOS 代次和 Hermes 会话管理脚本 |
+| `home/` | 筛选后的用户偏好配置与家目录骨架；不含登录态和应用数据库 |
 | `.gitignore` | Git 收录白名单，防止本地快照、凭据和设备资料被意外提交 |
 
 要修改启动时看到的 GRUB 菜单和主题，查看 `modules/boot/grub.nix`；要修改进入系统后的 GNOME/GDM 登录与桌面设置，查看 `modules/desktop/gnome.nix`。`modules/packages/default.nix` 将桌面应用和开发工具两份有序清单组合起来。

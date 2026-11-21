@@ -4,11 +4,11 @@
 !/README.md
 !/configuration.pending.nix
 !/docs/
-!/docs/MIGRATION.md
+!/docs/reinstall.md
 !/home/
 !/home/directories.txt
-!/home/scripts/
-!/home/scripts/*.sh
+!/scripts/
+!/scripts/*.sh
 !/home/config/
 !/home/config/.config/
 !/home/config/.config/Code/

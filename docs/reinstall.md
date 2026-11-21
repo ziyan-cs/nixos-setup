@@ -1,4 +1,4 @@
-# NixOS 换机与恢复
+# NixOS 重装与恢复
 
 本文记录可随仓库迁移的系统恢复流程。仓库母本描述软件和系统行为；磁盘布局、硬件和账户状态须在目标设备单独确认。
 
@@ -9,7 +9,7 @@
 - `assets/grub/`：GRUB 森林主题的背景、图标、布局和许可。
 - `home/config/`：筛选后的 VS Code、Neovim、Fcitx5、btop、XDG 目录偏好。
 - `home/directories.txt`：新家目录的基础结构。
-- `home/scripts/`：Hermes 会话管理和 NixOS 系统代次管理脚本。
+- `scripts/`：Hermes 会话管理和 NixOS 系统代次管理脚本。
 - `README.md`：当前机维护与部署说明。
 - `hardware-configuration.nix`、EFI/分区清单、密钥、令牌和用户数据不属于公开母本。
 
@@ -45,11 +45,11 @@ done < home/directories.txt
 
 `home/config/` 中的文件是偏好模板，恢复前检查用户名、字体、扩展和目标路径。把 `user-dirs.dirs` 内容合并到新用户的 `~/.config/user-dirs.dirs`；其他配置按相对路径复制。Neovim 配置会安装插件，首次启动需要网络。
 
-`home/scripts/` 中的脚本可复制至 `~/Workspace/Scripts/` 并设为可执行。`manage-hermes-sessions.sh` 需要 Hermes CLI、带 sqlite3 的 Python 和用户自己的 `~/.hermes/state.db`。`manage-system-generations.sh` 需要 NixOS、nix-env 和 sudo。
+`scripts/` 中的脚本可复制至 `~/Workspace/Scripts/` 并设为可执行。`manage-hermes-sessions.sh` 需要 Hermes CLI、带 sqlite3 的 Python 和用户自己的 `~/.hermes/state.db`。`manage-system-generations.sh` 需要 NixOS、nix-env 和 sudo。
 
 ## 已安装系统更新
 
-1. 从本仓库更新 `configuration.pending.nix`、`modules/` 和 `assets/` 到 `/etc/nixos/`；保留目标机自己的 `hardware-configuration.nix`。
+1. 将 `configuration.pending.nix` 复制为 `/etc/nixos/configuration.nix`，并更新同目录下的 `modules/` 和 `assets/`。保留目标机自己的 `hardware-configuration.nix`。复制和构建命令见[现机部署步骤](../README.md#在当前机器上部署)。
 2. 检查本机差异，执行 `sudo nixos-rebuild build`。
 3. 构建成功后执行 `sudo nixos-rebuild switch`，再检查新代次、桌面、网络、服务和关键电源行为。
 4. 如果新代次不能正常使用，从 GRUB 历史代次启动，或按 NixOS 提供的代次回退流程恢复。旧代次确认不再需要前，不要清理它们。
