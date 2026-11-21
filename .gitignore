@@ -5,6 +5,7 @@
 !/configuration.pending.nix
 !/docs/
 !/docs/reinstall.md
+!/docs/pilot.md
 !/docs/storage-layout.md
 !/manifests/
 !/manifests/storage-layout.txt

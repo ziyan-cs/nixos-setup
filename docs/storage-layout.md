@@ -1,6 +1,6 @@
 # NixOS 家目录布局
 
-基础清单位于 [manifests/storage-layout.txt](../manifests/storage-layout.txt)。系统用户目录走 NixOS，个人资料沿用以下约定。
+基础清单位于 [manifests/storage-layout.txt](../manifests/storage-layout.txt)。工具由 NixOS 系统配置安装。目录清单用于恢复用户的工作区和资料分类。
 
 | 位置 | 用途 |
 | --- | --- |

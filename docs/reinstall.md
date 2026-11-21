@@ -1,6 +1,6 @@
 # NixOS 重装与恢复
 
-本文记录可随仓库迁移的系统恢复流程。仓库母本描述软件和系统行为；磁盘布局、硬件和账户状态须在目标设备单独确认。
+适用于通过系统配置文件部署的 NixOS 工作站。已有 NixOS 的读者可直接看[日常更新与回退](#日常更新与回退)。若只想在试点设备评估配置，从[试点与验收](pilot.md)开始。
 
 ## 1. 重装前准备
 
@@ -13,12 +13,25 @@
 
 ## 2. 安装 NixOS
 
-1. 从 NixOS 安装介质启动，确认目标磁盘、分区方案、EFI 挂载点、文件系统和是否保留其他系统。先备份目标磁盘上的资料。
-2. 挂载目标系统至 `/mnt`，运行 `sudo nixos-generate-config --root /mnt`。保留新生成的 `hardware-configuration.nix`。
-3. 将本仓库整个目录复制到安装环境可访问的位置。把入口复制为 `/mnt/etc/nixos/configuration.nix`，并将 `modules/`、`assets/` 一并复制到 `/mnt/etc/nixos/`。
-4. 根据目标机器修改主机名、用户名、启动方式、Windows 探测、显示分辨率、硬件驱动和软件包。`system.stateVersion` 按安装器生成的配置及 NixOS 规则核对，不要机械沿用旧值。
-5. 检查并构建目标配置，确认 EFI、根分区和用户设置无误后才执行 `sudo nixos-install`。
-6. 首次进入桌面后，确认系统盘、引导菜单、联网和用户登录均可用。
+本仓库采用 UEFI + GRUB 默认布局。先按 [NixOS 安装手册](https://nixos.org/manual/nixos/stable/#sec-installation-manual-installing)确认目标磁盘、EFI 分区、文件系统和双系统边界。以下命令从安装环境的仓库根目录执行，目标系统和引导分区应已挂载。
+
+```bash
+sudo nixos-generate-config --root /mnt
+sudo cp /mnt/etc/nixos/configuration.nix /mnt/etc/nixos/configuration.generated.nix
+sudo cp -R modules assets /mnt/etc/nixos/
+sudo cp configuration.pending.nix /mnt/etc/nixos/configuration.nix
+```
+
+安装前核对以下各项。
+
+| 项目 | 检查位置 |
+| --- | --- |
+| 目标机磁盘和硬件 | 保留新生成的 `/mnt/etc/nixos/hardware-configuration.nix`，确认其中的根分区和引导分区挂载 |
+| 引导与双系统 | `modules/boot/grub.nix` 中的 EFI、引导器和 Windows 探测 |
+| 账户和网络 | `modules/accounts/` 与 `modules/network/` 中的用户名、权限、主机名和服务 |
+| 软件与版本 | `modules/packages/` 中的软件清单，以及 `modules/system/maintenance.nix` 中的 `system.stateVersion`。新安装以安装器生成的值为依据 |
+
+核对后执行 `sudo nixos-install`，按提示设置 root 密码。重启前用 `sudo nixos-enter --root /mnt -c 'passwd dev'` 设置普通用户密码，其中 `dev` 换成配置声明的真实用户名。首次从硬盘启动后确认引导菜单、桌面登录和网络可用。
 
 ## 3. 恢复开发环境
 
@@ -40,10 +53,19 @@ NixOS 构建时按模块安装开发工具。登录普通用户后，先用[家�
 
 ## 日常更新与回退
 
-1. 将 `configuration.pending.nix` 复制为 `/etc/nixos/configuration.nix`，并更新同目录下的 `modules/` 和 `assets/`。保留目标机自己的 `hardware-configuration.nix`。复制和构建命令见[现机部署步骤](../README.md#在当前机器上部署)。
-2. 检查本机差异，执行 `sudo nixos-rebuild build`。
-3. 构建成功后执行 `sudo nixos-rebuild switch`，再检查新代次、桌面、网络、服务和关键电源行为。
-4. 如果新代次不能正常使用，从 GRUB 历史代次启动，或按 NixOS 提供的代次回退流程恢复。旧代次确认不再需要前，不要清理它们。
+以下命令适用于使用 `/etc/nixos/configuration.nix` 的非 flake 安装。多主机或 flake 用户应把所选模块合并到自己使用的配置入口。
+
+从仓库根目录运行。先保存当前配置目录，以便恢复配置源。检查现机自定义模块及资源后再复制，保留目标机的 `hardware-configuration.nix`。
+
+```bash
+backup_dir="/etc/nixos.before-$(date +%Y%m%d-%H%M%S)"
+sudo cp -a /etc/nixos "$backup_dir"
+sudo cp -R modules assets /etc/nixos/
+sudo cp configuration.pending.nix /etc/nixos/configuration.nix
+sudo nixos-rebuild build
+```
+
+构建成功后单独运行 `sudo nixos-rebuild switch`，再按上节验收。切换失败时，从 GRUB 选择上一可用代次启动。若要继续用旧配置构建，从刚保存的备份恢复配置文件。系统代次和配置文件备份分别用于回退运行状态与恢复配置源。
 
 ## 数据与配置的边界
 
