@@ -28,6 +28,7 @@ GRUB 视觉资源来自 [Elegant-grub2-themes 固定提交](https://github.com/v
 
 - UEFI + GRUB 双系统菜单、GNOME 桌面、中文环境和 Fcitx5。
 - 开盖锁屏或闲置不会使后台任务挂起；合盖立即锁屏，仍合盖时电池供电约 15 分钟、接电约 20 分钟后挂起。
+- 闲置 5 分钟锁屏熄屏；若用户安装并启用 Caffeine，仍允许熄屏，避免全屏应用使屏幕常亮。
 - NetworkManager、Tailscale、Flatpak、打印、PipeWire、Steam，以及日常应用和开发工具。
 - 使用 NixOS 默认账户密码认证；不额外设置 PAM 登录失败锁定。MySQL 服务未启用。
 - Hermes 由用户级安装和配置管理；此母本不保存其账号或密钥。

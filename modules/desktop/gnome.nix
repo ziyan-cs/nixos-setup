@@ -48,6 +48,8 @@
           sleep-inactive-ac-type = "nothing";
           sleep-inactive-battery-type = "nothing";
         };
+        # Caffeine 即使开启，也允许闲置锁屏和熄屏，避免全屏应用使屏幕整夜常亮。
+        "org/gnome/shell/extensions/caffeine".screen-blank = "always";
         "org/gnome/desktop/input-sources".sources = [
           (lib.gvariant.mkTuple [
             "xkb"
